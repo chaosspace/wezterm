@@ -2,6 +2,48 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
+local C = {
+  lavender = "#b7bdf8",
+  blue = "#8aadf4",
+  sapphire = "#7dc4e4",
+  sky = "#91d7e3",
+  teal = "#8bd5ca",
+  green = "#a6da95",
+  yellow = "#eed496",
+  peech = "#f5a97f",
+  maroon = "#ee99a0",
+  red = "#ed8796",
+  pink = "#f5bde6",
+  flamingo = "#f0c6c6",
+  rosewater = "#f4dbd6",
+  white = "#ffffff",
+  ice_white = "#f0f8ff",
+  mint_cream = "#f5fffa",
+}
+
+local border_color = C.lavender
+
+config.colors = {
+  split = border_color,
+}
+config.window_frame = {
+  border_left_width = "0.25cell",
+  border_right_width = "0.25cell",
+  border_bottom_height = "0.25cell",
+  border_top_height = "0.25cell",
+  border_left_color = border_color,
+  border_right_color = border_color,
+  border_top_color = border_color,
+  border_bottom_color = border_color,
+}
+
+config.char_select_bg_color = C.sapphire
+config.char_select_fg_color = C.rosewater
+
+-- 可以根据需要选择是否开启GPU渲染
+-- config.max_fps = 120
+-- config.front_end = 'WebGpu'
+-- config.webgpu_power_preference = 'HighPerformance'
 
 config.initial_cols = 150
 config.initial_rows = 42
