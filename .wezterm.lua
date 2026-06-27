@@ -10,7 +10,7 @@ local C = {
   teal = "#8bd5ca",
   green = "#a6da95",
   yellow = "#eed496",
-  peech = "#f5a97f",
+  peach = "#f5a97f",
   maroon = "#ee99a0",
   red = "#ed8796",
   pink = "#f5bde6",
@@ -32,10 +32,33 @@ local function file_exists(path)
   return false
 end
 
-local background_image = os.getenv("WEZTERM_BACKGROUND_IMAGE")
-if not background_image or background_image == "" then
-  background_image = wezterm.config_dir .. "/background.jpg"
+local function is_absolute_path(path)
+  return path:sub(1, 1) == "/"
+    or path:sub(1, 2) == "\\\\"
+    or path:match("^%a:[/\\]") ~= nil
 end
+
+local function resolve_background_image(path)
+  if not path or path == "" then
+    return wezterm.config_dir .. "/background.jpg"
+  end
+
+  if path == "~" then
+    return wezterm.home_dir
+  end
+
+  if path:sub(1, 2) == "~/" then
+    return wezterm.home_dir .. path:sub(2)
+  end
+
+  if is_absolute_path(path) then
+    return path
+  end
+
+  return wezterm.config_dir .. "/" .. path
+end
+
+local background_image = resolve_background_image(os.getenv("WEZTERM_BACKGROUND_IMAGE"))
 
 config.colors = {
   split = border_color,
@@ -51,6 +74,13 @@ config.window_frame = {
   border_bottom_color = border_color,
 }
 
+config.window_padding = {
+  left = 8,
+  right = 8,
+  top = 6,
+  bottom = 6,
+}
+
 config.char_select_bg_color = C.sapphire
 config.char_select_fg_color = C.rosewater
 
@@ -61,7 +91,7 @@ if file_exists(background_image) then
         File = background_image,
       },
       hsb = {
-        brightness = 0.15,
+        brightness = 0.22,
         saturation = 0.7,
       },
     },
@@ -71,7 +101,7 @@ if file_exists(background_image) then
       },
       width = "100%",
       height = "100%",
-      opacity = 0.45,
+      opacity = 0.35,
     },
   }
 
@@ -90,7 +120,9 @@ config.font_size = 16
 config.color_scheme = "Tokyo Night (Gogh)"
 config.font = wezterm.font_with_fallback {
   'Fira Code',
+  'PingFang SC',
   'DengXian',
+  'Apple Color Emoji',
 }
 
 config.inactive_pane_hsb = {
@@ -102,9 +134,8 @@ config.use_fancy_tab_bar = false
 config.window_close_confirmation = "NeverPrompt"
 config.enable_tab_bar = false
 
-config.tab_max_width = 60
-
-
 config.adjust_window_size_when_changing_font_size = false
+config.audible_bell = "Disabled"
+config.native_macos_fullscreen_mode = true
 
 return config
