@@ -23,6 +23,20 @@ local C = {
 
 local border_color = C.lavender
 
+local function file_exists(path)
+  local file = io.open(path, "rb")
+  if file then
+    file:close()
+    return true
+  end
+  return false
+end
+
+local background_image = os.getenv("WEZTERM_BACKGROUND_IMAGE")
+if not background_image or background_image == "" then
+  background_image = wezterm.config_dir .. "/background.jpg"
+end
+
 config.colors = {
   split = border_color,
 }
@@ -39,6 +53,30 @@ config.window_frame = {
 
 config.char_select_bg_color = C.sapphire
 config.char_select_fg_color = C.rosewater
+
+if file_exists(background_image) then
+  config.background = {
+    {
+      source = {
+        File = background_image,
+      },
+      hsb = {
+        brightness = 0.15,
+        saturation = 0.7,
+      },
+    },
+    {
+      source = {
+        Color = "#000000",
+      },
+      width = "100%",
+      height = "100%",
+      opacity = 0.45,
+    },
+  }
+
+  config.text_background_opacity = 0.85
+end
 
 -- 可以根据需要选择是否开启GPU渲染
 -- config.max_fps = 120
