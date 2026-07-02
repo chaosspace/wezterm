@@ -175,8 +175,10 @@ config.window_padding = {
   bottom = 6,
 }
 
--- Windows 毛玻璃效果
+-- Windows 毛玻璃效果（可选：Auto, Disable, Mica, Acrylic, Tabbed）
 config.win32_system_backdrop = "Acrylic"
+-- 如果毛玻璃效果不生效，可以尝试注释掉上面一行，取消注释下面一行
+-- config.win32_system_backdrop = "Mica"
 
 -- 右键粘贴
 config.mouse_bindings = {
@@ -258,14 +260,19 @@ config.keys = {
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
   },
   {
-    key = '[',
+    key = 'LeftArrow',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateTabRelative(-1),
   },
   {
-    key = ']',
+    key = 'RightArrow',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.ActivateTabRelative(1),
+  },
+  {
+    key = 'w',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.CloseCurrentTab { confirm = true },
   },
   -- 复制粘贴
   {
