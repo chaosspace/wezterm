@@ -2,26 +2,33 @@ local wezterm = require 'wezterm'
 
 local config = wezterm.config_builder()
 
+-- Tokyo Night 主题配色
 local C = {
-  lavender = "#b7bdf8",
-  blue = "#8aadf4",
-  sapphire = "#7dc4e4",
-  sky = "#91d7e3",
-  teal = "#8bd5ca",
-  green = "#a6da95",
-  yellow = "#eed496",
-  peach = "#f5a97f",
-  maroon = "#ee99a0",
-  red = "#ed8796",
-  pink = "#f5bde6",
-  flamingo = "#f0c6c6",
-  rosewater = "#f4dbd6",
-  white = "#ffffff",
-  ice_white = "#f0f8ff",
-  mint_cream = "#f5fffa",
+  -- 背景与前景
+  bg = "#1a1b26",
+  bg_dark = "#16161e",
+  bg_highlight = "#292e42",
+  fg = "#c0caf5",
+
+  -- UI 颜色
+  selection = "#33467c",
+  comment = "#565f89",
+  dark_fg = "#3b4261",
+
+  -- 强调色
+  blue = "#7aa2f7",
+  cyan = "#7dcfff",
+  green = "#9ece6a",
+  magenta = "#bb9af7",
+  red = "#f7768e",
+  orange = "#ff9e64",
+  yellow = "#e0af68",
+
+  -- 特殊颜色
+  border = "#7aa2f7",
 }
 
-local border_color = C.lavender
+local border_color = C.border
 
 local function file_exists(path)
   local file = io.open(path, "rb")
@@ -81,8 +88,8 @@ config.window_padding = {
   bottom = 6,
 }
 
-config.char_select_bg_color = C.sapphire
-config.char_select_fg_color = C.rosewater
+config.char_select_bg_color = C.bg_highlight
+config.char_select_fg_color = C.fg
 
 if file_exists(background_image) then
   config.background = {
@@ -143,19 +150,27 @@ config.enable_tab_bar = true
 config.tab_bar_at_bottom = true
 config.tab_max_width = 60
 config.colors.tab_bar = {
-  background = "#1a1b26",
+  background = C.bg_dark,
   active_tab = {
-    bg_color = C.sapphire,
-    fg_color = "#1a1b26",
+    bg_color = C.blue,
+    fg_color = C.bg,
     intensity = "Bold",
   },
   inactive_tab = {
-    bg_color = "#24283b",
-    fg_color = C.lavender,
+    bg_color = C.bg_highlight,
+    fg_color = C.comment,
   },
   inactive_tab_hover = {
-    bg_color = C.blue,
-    fg_color = "#1a1b26",
+    bg_color = C.cyan,
+    fg_color = C.bg,
+  },
+  new_tab = {
+    bg_color = C.bg_highlight,
+    fg_color = C.comment,
+  },
+  new_tab_hover = {
+    bg_color = C.green,
+    fg_color = C.bg,
   },
 }
 
@@ -356,8 +371,11 @@ wezterm.on('update-right-status', function(window, pane)
   local date = wezterm.strftime '%Y-%m-%d'
 
   window:set_right_status(wezterm.format {
+    { Foreground = { Color = C.green } },
     { Text = git_branch ~= '' and ('  ' .. git_branch .. '  ') or '' },
+    { Foreground = { Color = C.cyan } },
     { Text = '  ' .. cwd .. '  ' },
+    { Foreground = { Color = C.comment } },
     { Text = '  ' .. date .. '  ' .. time .. '  ' },
   })
 end)
