@@ -260,19 +260,25 @@ config.keys = {
     action = wezterm.action.SpawnTab 'CurrentPaneDomain',
   },
   {
-    key = 'LeftArrow',
-    mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivateTabRelative(-1),
+    key = 'Tab',
+    mods = 'CTRL',
+    action = wezterm.action.ActivateTabRelative(1),
   },
   {
-    key = 'RightArrow',
+    key = 'Tab',
     mods = 'CTRL|SHIFT',
-    action = wezterm.action.ActivateTabRelative(1),
+    action = wezterm.action.ActivateTabRelative(-1),
   },
   {
     key = 'w',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.CloseCurrentTab { confirm = true },
+  },
+  -- 标签页导航器
+  {
+    key = 'n',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.ShowTabNavigator,
   },
   -- 复制粘贴
   {
