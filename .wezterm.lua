@@ -67,9 +67,6 @@ end
 
 local background_image = resolve_background_image(os.getenv("WEZTERM_BACKGROUND_IMAGE"))
 
--- 默认使用 Git Bash
-config.default_prog = { 'C:/Users/94001/scoop/apps/git/current/bin/bash.exe', '-l' }
-
 config.colors = {
   split = border_color,
 }
