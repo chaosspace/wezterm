@@ -70,7 +70,29 @@ local background_image = resolve_background_image(os.getenv("WEZTERM_BACKGROUND_
 config.colors = {
   split = border_color,
 }
+
+-- 窗口装饰：使用集成按钮和调整大小功能
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.integrated_title_button_style = "Windows"
+
 config.window_frame = {
+  -- 字体配置
+  font = wezterm.font({ family = 'Fira Code', weight = 'Bold' }),
+  font_size = 10.0,
+
+  -- 标题栏颜色
+  active_titlebar_bg = C.bg_dark,
+  inactive_titlebar_bg = C.bg,
+
+  -- 边框颜色
+  active_titlebar_border_bottom = C.border,
+  inactive_titlebar_border_bottom = C.comment,
+
+  -- 按钮颜色
+  active_titlebar_fg = C.fg,
+  inactive_titlebar_fg = C.comment,
+
+  -- 边框宽度
   border_left_width = "0.25cell",
   border_right_width = "0.25cell",
   border_bottom_height = "0.25cell",
@@ -370,13 +392,22 @@ wezterm.on('update-right-status', function(window, pane)
   local time = wezterm.strftime '%H:%M:%S'
   local date = wezterm.strftime '%Y-%m-%d'
 
+  -- 使用 Unicode 圆角字符来美化状态栏
+  local separator_left = ""
+  local separator_right = ""
+
   window:set_right_status(wezterm.format {
+    { Foreground = { Color = C.bg_highlight } },
+    { Text = separator_left },
     { Foreground = { Color = C.green } },
+    { Background = { Color = C.bg_highlight } },
     { Text = git_branch ~= '' and ('  ' .. git_branch .. '  ') or '' },
     { Foreground = { Color = C.cyan } },
     { Text = '  ' .. cwd .. '  ' },
     { Foreground = { Color = C.comment } },
     { Text = '  ' .. date .. '  ' .. time .. '  ' },
+    { Foreground = { Color = C.bg_highlight } },
+    { Text = separator_right },
   })
 end)
 
